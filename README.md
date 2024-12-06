@@ -61,3 +61,11 @@ synthtiger -o {dataset_path} -c {num_of_data} -w {num_of_workers} -v template.py
 # korean
 synthtiger -o {dataset_path} -c {num_of_data} -w {num_of_workers} -v template.py SynthDoG config_ko.yaml
 ```
+
+### Export Bounding Box
+To generate document with bounding box of each text string, use template2.py and SynthDoG2.  In addition, "elastic distortion" should be off in config file.
+
+For example:
+```
+$ synthtiger -o result_j -c 100 -w 4 -v template2.py SynthDoG2 config_ja2.yaml
+```
