@@ -13,12 +13,12 @@ RUN python3 -m venv /opt/venv
 # 作業場所
 WORKDIR /root/work/
 
+# ローカルのディレクトリをコンテナにコピー
+COPY ./ /root/work/SynthDoG
+
 # synthtigerのインストール
 RUN git clone https://github.com/takmin/synthtiger
 RUN /opt/venv/bin/pip install --no-cache-dir ./synthtiger
-
-# synthdogのダウンロード
-RUN git clone https://github.com/takmin/SynthDoG.git
 
 # 仮想環境をパスに追加
 ENV PATH="/opt/venv/bin:$PATH"
