@@ -4,7 +4,7 @@ FROM ubuntu:latest
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
 # Install Python PIP
-RUN apt update -y && apt install -y python3-venv git\
+RUN apt update -y && apt install -y python3-venv git libopencv-dev\
 && apt clean && rm -rf /var/lib/apt/lists/*
 
 # 仮想環境を作成
