@@ -27,7 +27,9 @@ class TextBox:
             if self.vertical:
                 font["vertical"] = True
                 char_layer = layers.TextLayer(char, **font)
-                char_scale = width / char_layer.width
+                #char_scale = width / char_layer.width
+                base = max(char_layer.width, char_layer.height)
+                char_scale = width / base
                 scaled_size = char_layer.size * char_scale
                 char_layer.bbox = [left, top, *scaled_size]
                 if char_layer.bottom > height:
