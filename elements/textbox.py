@@ -24,8 +24,9 @@ class TextBox:
             if char in "\r\n":
                 continue
             
-            char_layer = layers.TextLayer(char, **font)
             if self.vertical:
+                font["vertical"] = True
+                char_layer = layers.TextLayer(char, **font)
                 char_scale = width / char_layer.width
                 scaled_size = char_layer.size * char_scale
                 char_layer.bbox = [left, top, *scaled_size]
@@ -35,6 +36,7 @@ class TextBox:
                 chars.append(char)
                 top = char_layer.bottom
             else:
+                char_layer = layers.TextLayer(char, **font)
                 char_scale = height / char_layer.height
                 scaled_size = char_layer.size * char_scale
                 char_layer.bbox = [left, top, *scaled_size]
