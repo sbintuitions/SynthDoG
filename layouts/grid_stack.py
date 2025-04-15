@@ -10,6 +10,7 @@ from layouts import Grid
 
 class GridStack:
     def __init__(self, config):
+        self.vertical = config.get("vertical", False) 
         self.text_scale = config.get("text_scale", [0.05, 0.1])
         self.max_row = config.get("max_row", 5)
         self.max_col = config.get("max_col", 3)
@@ -28,7 +29,7 @@ class GridStack:
             }
         )
 
-    def generate(self, bbox):
+    def _generate_horizontal(self, bbox):
         left, top, width, height = bbox
 
         stack_spacing = np.random.uniform(self.stack_spacing[0], self.stack_spacing[1])
@@ -72,3 +73,28 @@ class GridStack:
                 bbox[:] = [x, y + space, w, h]
 
         return layouts
+    
+    def _generate_vertical(self, bbox):
+        left, top, width, height = bbox
+        transposed_bbox = [top, left, height, width]  # swap
+
+        layouts_t = self._generate_horizontal(transposed_bbox)
+        
+        # 回転 & ミラー
+        layouts = []
+        for layout in layouts_t:
+            new_layout = []
+            for (x_t, y_t, w_t, h_t), meta in layout:
+                w_o, h_o = h_t, w_t
+                x_o = left + width - ((y_t - left) + h_t)
+                y_o = x_t
+                new_layout.append(([x_o, y_o, w_o, h_o], meta))
+            layouts.append(new_layout)
+
+        return layouts
+
+    def generate(self, bbox):
+        if self.vertical:
+            return self._generate_vertical(bbox)
+        else:
+            return self._generate_horizontal(bbox)
